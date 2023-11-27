@@ -1,0 +1,50 @@
+{% comment %}added by koderweb custom code{% endcomment %}
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+  {%- when 'variant_metafield' -%}
+    <div class="variant_metafield_text">
+      {% unless product.has_only_default_variant %}
+        {% for variant in product.variants %}
+          <div class="variant_text"
+              data-variant-text-id="{{ variant.id }}"
+              {% if product.selected_or_first_available_variant.id == variant.id %}
+                style="display: block;"
+              {% endif %}
+          >
+            {{ variant.metafields.v_text.text.value }}
+
+          </div>
+
+        {% endfor %}
+      {% endunless %}
+     </div>
+  {%- endcase -%}
+{%- endfor -%}
+
+{% comment %}json for add block codes{% endcomment %}
+{% schema %}
+{
+  "name": "t:sections.main-product.name",
+  "tag": "section",
+  "class": "section",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "variant_metafield",
+      "name": "Variant metafields text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To display metafields text for each variant"
+        }
+      ]
+    }
+  ],
+  "settings": [
+ 
+  ]
+}
+{% endschema %}
